@@ -1,6 +1,6 @@
 package hobos_taco.hpermissions.data;
 
-import hobos_taco.hpermissions.asm.CoreModContainer;
+import hobos_taco.hpermissions.CoreModContainer;
 import hobos_taco.hpermissions.util.Config;
 import hobos_taco.hpermissions.util.PermLog;
 import hobos_taco.hpermissions.util.Util;

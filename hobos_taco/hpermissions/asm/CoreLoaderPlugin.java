@@ -21,8 +21,7 @@ public class CoreLoaderPlugin implements IFMLLoadingPlugin
 	@Override
     public String[] getLibraryRequestClass()
     {
-	   String[] i = {"hobos_taco.hpermissions.asm.CoreLibrarySet"};
-       return i;
+       return null;
     }
 
     /*
@@ -40,7 +39,7 @@ public class CoreLoaderPlugin implements IFMLLoadingPlugin
     @Override
     public String getModContainerClass()
     {
-        return "hobos_taco.hpermissions.asm.CoreModContainer";
+        return "hobos_taco.hpermissions.CoreModContainer";
     }
 
     /*

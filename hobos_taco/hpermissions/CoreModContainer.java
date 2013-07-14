@@ -1,7 +1,5 @@
-package hobos_taco.hpermissions.asm;
+package hobos_taco.hpermissions;
 
-import hobos_taco.hpermissions.PermissionManager;
-import hobos_taco.hpermissions.PlayerHandler;
 import hobos_taco.hpermissions.api.Permission;
 import hobos_taco.hpermissions.commands.CommandDemote;
 import hobos_taco.hpermissions.commands.CommandPromote;

@@ -1,6 +1,6 @@
 package hobos_taco.hpermissions.data;
 
-import hobos_taco.hpermissions.asm.CoreModContainer;
+import hobos_taco.hpermissions.CoreModContainer;
 import hobos_taco.hpermissions.util.PermLog;
 import hobos_taco.hpermissions.util.Util;
 import java.io.File;
@@ -152,7 +152,7 @@ public class GroupData
         defaultG.prefix = "Newbie";
         defaultG.suffix = "";
         defaultG.nextGroup = "Moderator";
-        defaultG.perms = new String[] {"hpermissions.reload", "hpermissions.promote", "hpermissions.addspecial"};
+        defaultG.perms = new String[] {};
         CoreModContainer.groupList.put("Default", defaultG);
         
         Group moderatorG = new Group();
@@ -163,7 +163,7 @@ public class GroupData
         moderatorG.suffix = "";
         moderatorG.nextGroup = "Admin";
         moderatorG.prevGroup = "Default";
-        moderatorG.perms = new String[] {"hpermissions.demote"};
+        moderatorG.perms = new String[] {"hpermissions.reload", "hpermissions.promote", "hpermissions.addspecial", "hpermissions.demote"};
         CoreModContainer.groupList.put("Moderator", moderatorG);
         
         Group adminG = new Group();
@@ -173,7 +173,7 @@ public class GroupData
         adminG.prefix = "Admin";
         adminG.suffix = "";
         adminG.prevGroup = "Moderator";
-        adminG.perms = new String[] {};
+        adminG.perms = new String[] {"hpermissions.reload", "hpermissions.promote", "hpermissions.addspecial", "hpermissions.demote"};
         CoreModContainer.groupList.put("Admin", adminG);
         
         saveGroup("Default");
