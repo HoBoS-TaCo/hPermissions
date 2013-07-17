@@ -1,17 +1,17 @@
 package hobos_taco.hpermissions.commands;
 
-import hobos_taco.hpermissions.Rank;
 import hobos_taco.hpermissions.api.Permission;
+import hobos_taco.hpermissions.api.PermissionManager;
 import hobos_taco.hpermissions.data.Group;
-import hobos_taco.hpermissions.data.GroupData;
 import hobos_taco.hpermissions.data.Player;
-import hobos_taco.hpermissions.data.PlayerData;
+import hobos_taco.hpermissions.util.ChatHandler;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
-import net.minecraft.entity.player.EntityPlayer;
 
 @Permission("hpermissions.set")
 public class CommandSet extends CommandBase
@@ -31,7 +31,7 @@ public class CommandSet extends CommandBase
     @Override
     public String getCommandUsage(ICommandSender par1ICommandSender)
     {
-        return "/" + this.getCommandName() + "<player> <group>";
+        return "/" + this.getCommandName() + " <player> <group>";
     }
     
     @Override
@@ -39,33 +39,33 @@ public class CommandSet extends CommandBase
     {
         ArrayList<String> list = new ArrayList<String>();
         list.add("hps");
-        list.add("hset");
+        list.add("hpset");
         return list;
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] string)
     {
-        Player player = PlayerData.getPlayer(string[0]);
-        Group group = GroupData.getGroup(string[1]);
-
-        if ((player != null) && (group != null))
-        {
-            if (Rank.setGroup(string[0], string[1]) == false)
-            {
-            	if (sender instanceof EntityPlayer)
-            	{
-            		((EntityPlayer) sender).addChatMessage("Unknown Player or Group.");
-            	}
-            }        
-            else
-            {
-                PlayerData.savePlayer(string[0]);
-            }
-        }
-        else
-        {
-            throw new PlayerNotFoundException();
-        }
+    	if (string.length != 2)
+    	{
+    		ChatHandler.chatError(sender, "Incorrect parameters: " + "/" + this.getCommandName() + " <player> <group>");
+    	}
+    	else
+    	{
+	        Player player = Player.getPlayer(string[0]);
+	        Group group = Group.getGroup(string[1]);
+	
+	        if (player != null)
+	        {
+	        	if (PermissionManager.setGroup(sender, string[0], string[1]))
+		        {
+	        		Player.savePlayer(string[0]);
+		        }
+	        }
+	        else
+	        {
+	            throw new PlayerNotFoundException();
+	        }
+    	}
     }
 }

@@ -1,23 +1,88 @@
 package hobos_taco.hpermissions.util;
 
+import hobos_taco.hpermissions.CoreModContainer;
+
 import java.io.File;
-import net.minecraftforge.common.Configuration;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
-public class Config
-{
-    public static String defaultGroup;
-    public static boolean debug;
-    
-    public static void init(FMLPreInitializationEvent event)
-    {
-        Configuration config = new Configuration(new File(Util.HPERMFOLDER, "hPermissions.cfg"));
+import com.esotericsoftware.yamlbeans.YamlException;
+import com.esotericsoftware.yamlbeans.YamlReader;
+import com.esotericsoftware.yamlbeans.YamlWriter;
 
-        config.load();
+public class Config 
+{	
+	public static boolean debug;
+	public static String defaultGroup;
 
-        defaultGroup = config.get(Configuration.CATEGORY_GENERAL, "defaultGroup", "Default", "The group new players are put into.").getString();
-        debug = config.get(Configuration.CATEGORY_GENERAL, "debug", false, "Log extra information.").getBoolean(false);
-        
-        config.save();
-    }
+	public static void saveConfig()
+	{
+        File configFile = new File(Util.HPERMFOLDER, "Config.yml");
+
+        try
+        {
+            YamlWriter writer = new YamlWriter(new FileWriter(configFile));
+            writer.getConfig().setClassTag("Config", Config.class);
+            writer.write(CoreModContainer.config);
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+	}
+
+	public static void loadConfig()
+	{
+        File configFile = new File(Util.HPERMFOLDER, "Config.yml");
+
+	    if (!configFile.exists())
+	    {
+	        createConfig();
+	                
+	        saveConfig();
+	    }
+	    else
+	    {
+	    	Config config = null;
+            YamlReader reader = null;
+            
+            try
+            {
+                reader = new YamlReader(new FileReader(configFile));
+                reader.getConfig().setClassTag("Config", Config.class);
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            try
+            {
+            	config = reader.read(Config.class);
+            }
+            catch (YamlException e)
+            {
+                e.printStackTrace();
+            }
+            try
+            {
+                reader.close();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            CoreModContainer.config = config;
+	    }
+	}
+
+	public static void createConfig()
+	{
+		Config config = new Config();
+		config.debug = false;
+		config.defaultGroup = "Default";
+		CoreModContainer.config = config;
+	}
 }

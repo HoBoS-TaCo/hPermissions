@@ -7,6 +7,10 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+/**
+ * 	Apply to your ICommand implementing command and insert your permission string.
+ *	This file can be included in your mod download.
+ */
 public @interface Permission
 {
     public String value();

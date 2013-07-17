@@ -1,13 +1,15 @@
 package hobos_taco.hpermissions.commands;
 
 import hobos_taco.hpermissions.api.Permission;
-import hobos_taco.hpermissions.data.GroupData;
-import hobos_taco.hpermissions.data.PlayerData;
+import hobos_taco.hpermissions.data.Group;
+import hobos_taco.hpermissions.data.Player;
+import hobos_taco.hpermissions.util.ChatHandler;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
 
 @Permission("hpermissions.reload")
 public class CommandReload extends CommandBase
@@ -35,24 +37,18 @@ public class CommandReload extends CommandBase
     {
         ArrayList<String> list = new ArrayList<String>();
         list.add("hpr");
-        list.add("hreload");
+        list.add("hpreload");
         return list;
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] string)
     {
-    	if (sender instanceof EntityPlayer)
-    	{
-    		((EntityPlayer) sender).addChatMessage("Reloading...");
-    	}
-    	
-        GroupData.loadAllGroups();
-        PlayerData.loadAllPlayers();
+    	ChatHandler.chatConfirmation(sender, "Reloading...");
+    	    	
+        Group.loadAllGroups();
+        Player.loadAllPlayers();
         
-        if (sender instanceof EntityPlayer)
-    	{
-    		((EntityPlayer) sender).addChatMessage("Done.");
-    	}
+        ChatHandler.chatConfirmation(sender, "Done.");
     }
 }

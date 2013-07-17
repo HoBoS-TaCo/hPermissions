@@ -9,7 +9,7 @@ public class Util
 {
 	public static final String ID = "hPermissions";
 	public static final String NAME = "hPermissions";
-	public static final String VERSION = "0.1.0";
+	public static final String VERSION = "0.2.0";
 	public static String WEBVERSION;
 	public static final String MCVERSION = "1.6.2";
 	public static final String DESC = "hPermissions is a server-side permissions mod for a Forge-modded Minecraft server.";
