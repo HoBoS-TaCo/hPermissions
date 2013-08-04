@@ -1,6 +1,6 @@
 package hobos_taco.hpermissions.data;
 
-import hobos_taco.hpermissions.CoreModContainer;
+import hobos_taco.hpermissions.HPermissions;
 import hobos_taco.hpermissions.util.ChatHandler;
 import hobos_taco.hpermissions.util.Config;
 import hobos_taco.hpermissions.util.Util;
@@ -20,21 +20,21 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 
 public class Player
 {
-    public String username;
-    public String prefix;
-	public String suffix;
-	public String group;
-	public String[] perms;
-	public boolean allaccess;
+	private String username;
+    private String chatPrefix;
+    private String chatSuffix;
+	private String group;
+	private String[] permissions;
+	private boolean allAccess;
 	
 	public static Player getPlayer(String username)
 	{
-        return CoreModContainer.playerList.get(username);
+        return HPermissions.playerList.get(username);
 	}
 
 	public static void savePlayer(String username)
 	{
-	    Player player = CoreModContainer.playerList.get(username);
+	    Player player = HPermissions.playerList.get(username);
         
         File file = new File(Util.HPERMFOLDER, "Players");
         file.mkdir();
@@ -57,7 +57,7 @@ public class Player
 
 	public static void loadPlayer(String username)
 	{
-	    CoreModContainer.playerList.remove(username);
+	    HPermissions.playerList.remove(username);
 
 	    File file = new File(Util.HPERMFOLDER, "Players");
         file.mkdir();
@@ -101,13 +101,13 @@ public class Player
             {
                 e.printStackTrace();
             }
-	        CoreModContainer.playerList.put(username, player);
+	        HPermissions.playerList.put(username, player);
 	    }
 	}
 
 	public static void unloadPlayer(String username)
 	{
-	    CoreModContainer.playerList.remove(username);
+	    HPermissions.playerList.remove(username);
 	}
 	
 	public static void loadAllPlayers()
@@ -136,8 +136,8 @@ public class Player
 	{
         Player player = new Player();
         player.username = username;
-        player.prefix = "";
-        player.suffix = "";
+        player.setChatPrefix("");
+        player.setChatSuffix("");
         if (Group.getGroup(Config.defaultGroup) != null)
         {
             player.group = Config.defaultGroup;
@@ -147,8 +147,114 @@ public class Player
         	ChatHandler.logException(Level.SEVERE, "Default group cannot be found or loaded.");
         }
         
-        player.allaccess = false;
+        player.setAllAccess(false);
         
-        CoreModContainer.playerList.put(username, player);
+        HPermissions.playerList.put(username, player);
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername()
+	{
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
+
+	/**
+	 * @return the chatPrefix
+	 */
+	public String getChatPrefix()
+	{
+		String string = "";
+		if (chatPrefix != null)
+		{
+			string = chatPrefix;
+		}
+		return string;
+	}
+
+	/**
+	 * @param chatPrefix the chatPrefix to set
+	 */
+	public void setChatPrefix(String chatPrefix)
+	{
+		this.chatPrefix = chatPrefix;
+	}
+
+	/**
+	 * @return the chatSuffix
+	 */
+	public String getChatSuffix()
+	{
+		String string = "";
+		if (chatSuffix != null)
+		{
+			string = chatSuffix;
+		}
+		return string;
+	}
+
+	/**
+	 * @param chatSuffix the chatSuffix to set
+	 */
+	public void setChatSuffix(String chatSuffix)
+	{
+		this.chatSuffix = chatSuffix;
+	}
+
+	/**
+	 * @return the group
+	 */
+	public String getGroup()
+	{
+		return group;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(String group)
+	{
+		this.group = group;
+	}
+
+	/**
+	 * @return the permissions
+	 */
+	public String[] getPermissions()
+	{
+		return permissions;
+	}
+
+	/**
+	 * @param permissions the permissions to set
+	 */
+	public void setPermissions(String[] permissions)
+	{
+		this.permissions = permissions;
+	}
+
+	/**
+	 * @return the allAccess
+	 */
+	public boolean isAllAccess()
+	{
+		return allAccess;
+	}
+
+	/**
+	 * @param allAccess the allAccess to set
+	 */
+	public void setAllAccess(boolean allAccess)
+	{
+		this.allAccess = allAccess;
 	}
 }

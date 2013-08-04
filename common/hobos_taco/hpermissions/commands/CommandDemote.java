@@ -1,7 +1,7 @@
 package hobos_taco.hpermissions.commands;
 
 import hobos_taco.hpermissions.api.Permission;
-import hobos_taco.hpermissions.api.PermissionManager;
+import hobos_taco.hpermissions.data.PermissionManager;
 import hobos_taco.hpermissions.data.Player;
 import hobos_taco.hpermissions.util.ChatHandler;
 
@@ -12,15 +12,15 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 
-@Permission("hpermissions.promote")
-public class CommandPromote extends CommandBase
+@Permission("hpermissions.demote")
+public class CommandDemote extends CommandBase
 {
     @Override
     public String getCommandName()
     {
-        return "hpermpromote";
+        return "hpermdemote";
     }
-
+    
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
     {
@@ -34,12 +34,12 @@ public class CommandPromote extends CommandBase
     }
     
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         ArrayList<String> list = new ArrayList<String>();
-        list.add("hpp");
-        list.add("hppromote");
-        list.add("hpprom");
+        list.add("hpd");
+        list.add("hpdemote");
+        list.add("hpdem");
         return list;
     }
 
@@ -56,9 +56,9 @@ public class CommandPromote extends CommandBase
 	        
 	        if (hplayer != null)
 	        {
-	            if (PermissionManager.promote(sender, string[0]))  
+	            if (PermissionManager.demote(sender, string[0]))
 	            {
-	                Player.savePlayer(string[0]);
+	            	Player.savePlayer(string[0]);
 	            }
 	        }
 	        else

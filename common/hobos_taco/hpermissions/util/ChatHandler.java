@@ -1,11 +1,16 @@
 package hobos_taco.hpermissions.util;
 
+import hobos_taco.hpermissions.data.Group;
+import hobos_taco.hpermissions.data.Player;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.util.ChatMessageComponent;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class ChatHandler
 {
@@ -74,7 +79,7 @@ public final class ChatHandler
 	 * @param message
 	 * @param error
 	 */
-	public static void logEception(Level level, String message, Throwable error)
+	public static void logException(Level level, String message, Throwable error)
 	{
 		log.log(level, message, error);
 	}
@@ -125,4 +130,44 @@ public final class ChatHandler
 		}
 		return new String(b);
 	}
+	
+	public static void chatMessage(String username, String message)
+    {        
+		Player player = Player.getPlayer(username);
+		String name = username;	
+		
+        String prefix = player.getChatPrefix();
+        String suffix = player.getChatSuffix();
+        
+        String chatFormat = Group.getGroup(player.getGroup()).getChatFormat();
+        
+        String[] chat = chatFormat.split("%");
+        StringBuffer result = new StringBuffer();
+
+        for (String section : chat)
+        {
+        	if (section.matches("username"))
+        	{
+        		result.append(name);
+        	}
+        	else if (section.matches("prefix"))
+        	{
+        		result.append(prefix);
+        	}
+        	else if (section.matches("suffix"))
+        	{
+        		result.append(suffix);
+        	}
+        	else
+        	{
+        		result.append(section);
+        	}
+        }
+        
+        result.append(message);
+        String output = result.toString();
+        
+        FMLCommonHandler.instance().getMinecraftServerInstance().sendChatToPlayer(ChatMessageComponent.func_111066_d(output));
+        FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(new Packet3Chat(ChatMessageComponent.func_111066_d(output), false));
+    }
 }

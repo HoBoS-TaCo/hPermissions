@@ -33,7 +33,7 @@ public class CommandReload extends CommandBase
     }
     
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         ArrayList<String> list = new ArrayList<String>();
         list.add("hpr");

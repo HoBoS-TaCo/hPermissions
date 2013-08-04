@@ -12,7 +12,7 @@ public class Util
 	public static final String VERSION = "0.2.0";
 	public static String WEBVERSION;
 	public static final String MCVERSION = "1.6.2";
-	public static final String DESC = "hPermissions is a server-side permissions mod for a Forge-modded Minecraft server.";
+	public static final String DESC = "hPermissions is a server-side permissions and chat formatting mod for Forge-modded Minecraft servers.";
 	public static final List<String> AUTHORLIST = Arrays.asList("HoBoS_TaCo");
 	public static final String URL = "https://github.com/HoBoS-TaCo/hPermissions/wiki";
     public static final String CREDITS = "YamlBeans for Yaml management.";

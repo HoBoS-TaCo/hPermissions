@@ -1,7 +1,7 @@
 package hobos_taco.hpermissions.commands;
 
 import hobos_taco.hpermissions.api.Permission;
-import hobos_taco.hpermissions.api.PermissionManager;
+import hobos_taco.hpermissions.data.PermissionManager;
 import hobos_taco.hpermissions.data.Player;
 import hobos_taco.hpermissions.util.ChatHandler;
 
@@ -12,15 +12,15 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 
-@Permission("hpermissions.demote")
-public class CommandDemote extends CommandBase
+@Permission("hpermissions.set")
+public class CommandSet extends CommandBase
 {
     @Override
     public String getCommandName()
     {
-        return "hpermdemote";
+        return "hpermset";
     }
-    
+
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
     {
@@ -30,36 +30,34 @@ public class CommandDemote extends CommandBase
     @Override
     public String getCommandUsage(ICommandSender par1ICommandSender)
     {
-        return "/" + this.getCommandName() + " <player>";
+        return "/" + this.getCommandName() + " <player> <group>";
     }
     
     @Override
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         ArrayList<String> list = new ArrayList<String>();
-        list.add("hpd");
-        list.add("hpdemote");
-        list.add("hpdem");
+        list.add("hps");
+        list.add("hpset");
         return list;
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] string)
     {
-    	if (string.length != 1)
+    	if (string.length != 2)
     	{
-    		ChatHandler.chatError(sender, "Incorrect parameters: " + "/" + this.getCommandName() + " <player>");
+    		ChatHandler.chatError(sender, "Incorrect parameters: " + "/" + this.getCommandName() + " <player> <group>");
     	}
     	else
     	{
-	        Player hplayer = Player.getPlayer(string[0]);
-	        
-	        if (hplayer != null)
+	        Player player = Player.getPlayer(string[0]);
+	        if (player != null)
 	        {
-	            if (PermissionManager.demote(sender, string[0]))
-	            {
-	            	Player.savePlayer(string[0]);
-	            }
+	        	if (PermissionManager.setGroup(sender, string[0], string[1]))
+		        {
+	        		Player.savePlayer(string[0]);
+		        }
 	        }
 	        else
 	        {

@@ -1,7 +1,5 @@
-package hobos_taco.hpermissions.api;
+package hobos_taco.hpermissions.data;
 
-import hobos_taco.hpermissions.data.Group;
-import hobos_taco.hpermissions.data.Player;
 import hobos_taco.hpermissions.util.ChatHandler;
 import hobos_taco.hpermissions.util.Util;
 
@@ -20,10 +18,10 @@ public class PermissionManager
      */
     private static boolean playerHasPerm(String username, String perm)
     {
-        String group = Player.getPlayer(username).group;
+        String group = Player.getPlayer(username).getGroup();
 
-        String[] pPerms = Player.getPlayer(username).perms;
-        String[] gPerms = Group.getGroup(group).perms;
+        String[] pPerms = Player.getPlayer(username).getPermissions();
+        String[] gPerms = Group.getGroup(group).getPermissions();
         
         List<String> pList = new ArrayList<String>();
         if (pPerms != null)
@@ -54,7 +52,7 @@ public class PermissionManager
      */
     public static boolean hasPermission(String username, String perm)
     {
-        if (Player.getPlayer(username).allaccess == true)
+        if (Player.getPlayer(username).isAllAccess() == true)
         {
             return true;
         }
@@ -76,8 +74,8 @@ public class PermissionManager
      */
     public static boolean promote(ICommandSender sender, String username)
     {
-        String playerGroupString = Player.getPlayer(username).group;
-        String nextGroupString = Group.getGroup(playerGroupString).nextGroup;
+        String playerGroupString = Player.getPlayer(username).getGroup();
+        String nextGroupString = Group.getGroup(playerGroupString).getNextGroup();
         Group nextGroup =  Group.getGroup(nextGroupString);
         if (playerGroupString != null)
         {
@@ -85,9 +83,9 @@ public class PermissionManager
             {
                 if (nextGroup != null)
                 {
-                	if (nextGroup.commandDisabled == false)
+                	if (nextGroup.isPermCommandsDisabled() == false)
                     {
-                        Player.getPlayer(username).group = nextGroup.name;
+                        Player.getPlayer(username).setGroup(nextGroup.getGroupName());
                         ChatHandler.chatConfirmation(sender, username + " promoted to group " + nextGroupString + ".");
                         return true;
                     }
@@ -121,8 +119,8 @@ public class PermissionManager
      */
     public static boolean demote(ICommandSender sender, String username)
     {
-        String playerGroupString = Player.getPlayer(username).group;
-        String prevGroupString = Group.getGroup(playerGroupString).prevGroup;
+        String playerGroupString = Player.getPlayer(username).getGroup();
+        String prevGroupString = Group.getGroup(playerGroupString).getPrevGroup();
         Group prevGroup = Group.getGroup(prevGroupString);
         Group playerGroup = Group.getGroup(playerGroupString);
         if (playerGroupString != null)
@@ -133,9 +131,9 @@ public class PermissionManager
                 {
                 	if (playerGroup != null)
                     {
-                		if (playerGroup.commandDisabled == false)
+                		if (playerGroup.isPermCommandsDisabled() == false)
                         {
-                			Player.getPlayer(username).group = prevGroup.name;
+                			Player.getPlayer(username).setGroup(prevGroup.getGroupName());
                             ChatHandler.chatConfirmation(sender, username + " demoted to group " + prevGroupString + ".");
                             return true;
                         }
@@ -175,16 +173,15 @@ public class PermissionManager
      */
     public static boolean setGroup(ICommandSender sender, String username, String group)
     {
-        String playerGroupString = Player.getPlayer(username).group;
         String newGroupString = group;
         Group newGroup =  Group.getGroup(newGroupString);
         if (newGroupString != null)
         {
             if (newGroup != null)
             {
-            	if (newGroup.commandDisabled == false)
+            	if (newGroup.isPermCommandsDisabled() == false)
                 {
-                    Player.getPlayer(username).group = newGroup.name;
+                    Player.getPlayer(username).setGroup(newGroup.getGroupName());
                     ChatHandler.chatConfirmation(sender, username + " group set to " + newGroupString + ".");
                     return true;
                 }
